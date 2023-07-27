@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">MTDeckView Stable</string>
+    <string name="help">ヘルプ</string>string>
+    <string name="home">アカウントのホーム</string>
+    <string name="about">このアプリについて</string>
+    <string name="finish">終了</string>
+    <string name="show_all">全て表示</string>
+    <string name="media_only">メディアのみ</string>
+    <string name="no_retweet">リツイート除外</string>
+    <string name="noret_media">リツイート除外/メディアのみ</string>
+    <string name="reload">リロード</string>
+    <string name="sub_finish">閉じる</string>
+    <string name="other">他のアプリで表示</string>
+    <string name="dl">ダウンロード</string>
+    <string name="open_innerapp">内部ビューアで開く</string>
+    <string name="open_outerapp">標準ブラウザで開く</string>
+    <string name="close">戻る</string>
+    <string name="title1">画像へのリンクです</string>
+    <string name="title2">Tweetまたは外部へのリンクです</string>
+    <string name="title3">無効なリンクです</string>
+    <string name="button">DLボタン</string>
+    <string name="switch_summary">詳細　表示/非表示</string>
+    <string name="switch_autorel">更新　手動/自動</string>
+    <string name ="finish_V">このビューを閉じる</string>
+
+</resources>

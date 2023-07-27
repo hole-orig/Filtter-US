@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuitemm1"
+        android:orderInCategory="300"
+        android:title="@string/help" />
+
+    <item
+        android:id="@+id/menuitemm2"
+        android:title="@string/about"
+        android:orderInCategory="200" />
+
+    <item
+        android:id="@+id/menuitemm3"
+        android:title="@string/finish"
+        android:orderInCategory="100"/>
+
+    <item
+        android:id="@+id/menuitemm4"
+        android:title="@string/show_all"
+        android:orderInCategory="400"/>
+
+    <item
+        android:id="@+id/menuitemm5"
+        android:title="@string/media_only"
+        android:orderInCategory="500"/>
+
+    <item
+        android:id="@+id/menuitemm6"
+        android:title="@string/no_retweet"
+        android:orderInCategory="600"/>
+
+    <item
+        android:id="@+id/menuitemm7"
+        android:title="@string/noret_media"
+        android:orderInCategory="700"/>
+
+    <item
+            android:id="@+id/menuitemm8"
+            android:title="@string/reload"
+            android:orderInCategory="300"/>
+
+</menu>
