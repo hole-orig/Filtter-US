@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Filtter
 // @namespace    https://twitter.com/hom_hole
-// @version      0.9g
+// @version      0.9m
 // @description  Filter for X/Twitter
 // @author       hom_hole
 // @match        https://twitter.com/*
@@ -13,21 +13,26 @@
   'use strict';
 let showflag;
 let relflag;
+let sumflag;
+
 function initFiltter(){
 showflag =1;
- relflag = 1;
+relflag = 1;
+sumflag =1;
  setTimeout(updateIT,100);
  setTimeout(showchange,100);
  setTimeout(addmenu,500);
+ setTimeout(addsumselect,500);
+ setTimeout(sumctrl,500)
 }
 
-document.addEventListener('DOMContentLoaded',addmenu)
-
+//フィルターメニュー
 function addmenu(){
 let navElD2;
 let navmenu;
-function createmenu(){
-if(document.getElementById("filtnav") == null){
+//追加
+ function createmenu(){
+ if(document.getElementById("filtnav") == null){
  //↓はモバイルかつ委任アカウントでない
   if(document.body.querySelector('div[class="css-1dbjc4n r-1e5uvyk r-ii8lfi r-1h3ijdo"]')==null &&　document.body.querySelector('div[class="css-1dbjc4n r-1e5uvyk r-ii8lfi"]')==null && document.querySelector('div[data-testid="TopNavBar"]') !=null){
    navElD2 = document.querySelector('div[data-testid="BottomBar"]');
@@ -40,11 +45,12 @@ if(document.getElementById("filtnav") == null){
  navmenu.innerHTML= '<select id="filtnav" style="display:block;background-color:#102030; color:white;text-align:right; height:22px; width:100%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="All">全て表示</option><option value="ExRP">リポスト非表示</option><option value="Media">メディアのみ</option><option value="ExRP_Media">リポスト非表示/メディアのみ</option></select>';
  navElD2.prepend(navmenu);
  }
+//動作（フラグ変更）
  if(document.getElementById("filtnav") !=null){
  const filtternav = document.getElementById("filtnav");
  filtternav.addEventListener('change',setFilt);
-   function setFilt(event){
-     let flaga = event.currentTarget.value;
+   function setFilt(){
+     let flaga = filtternav.value;
     if(flaga =="All"){
     showflag =1;
     }
@@ -58,6 +64,7 @@ if(document.getElementById("filtnav") == null){
      showflag =4;
     }
  }
+//表示修正
  if(showflag =="1"){
    filtternav.options[0].selected = true;
    }
@@ -72,12 +79,14 @@ if(document.getElementById("filtnav") == null){
  }
  }
 }
+//表示調整
     if(document.getElementById("filtnav") != null){
-           const filtternav = document.getElementById("filtnav");
+        const filtternav = document.getElementById("filtnav");
         if(location.pathname.includes("/explore") ||location.pathname.includes("/messages") || location.pathname.includes("/compose/tweet") || location.pathname.includes("/status/") || location.pathname.endsWith("/notifications")|| location.pathname.endsWith("/timeline") ||location.pathname.endsWith("/lists")){
         filtternav.parentNode.style.display="none";
          }
-        else{ filtternav.parentNode.style.display="block";
+        else{
+            filtternav.parentNode.style.display="block";
          }
     }
  setTimeout(createmenu,500)
@@ -85,6 +94,94 @@ if(document.getElementById("filtnav") == null){
 createmenu();
 };
 
+//リストの詳細
+function addsumselect(){
+    let sumselectposiA;
+    let infosumselect;
+//追加
+   function createsumselect(){
+    if(document.body.querySelector('div[aria-label="ホームタイムライン"]')!=null&&document.querySelector('div[data-testid="TopNavBar"]')==null){
+    const targetW= document.body.querySelector('div[aria-label="ホームタイムライン"]')
+    const sumselectposiW = targetW.querySelector('div[class="css-1dbjc4n r-1awozwy r-18u37iz r-1h3ijdo r-1777fci r-1jgb5lz r-sb58tz r-ymttw5 r-13qz1uu"]')
+    sumselectposiA=sumselectposiW;
+    }
+    //モバイル
+    if(document.querySelector('div[data-testid="TopNavBar"]')!=null){
+            const sumselectmat = document.querySelector('select[id="infobutton"]');
+     const targetM = document.body.querySelector('div[data-testid="TopNavBar"]');
+    const sumselectposiM = targetM.querySelector('div[class="css-1dbjc4n r-1awozwy r-18u37iz r-1h3ijdo r-1777fci r-1jgb5lz r-ymttw5 r-13qz1uu"]') ;
+        sumselectposiA=sumselectposiM;
+        if(sumselectposiM==null){
+        const sumselectposiM2 = targetM.querySelector('div[class="css-1dbjc4n r-1awozwy r-18u37iz r-1iud8zs r-1777fci r-1jgb5lz r-1j3t67a r-13qz1uu"]') ;
+        sumselectposiA= sumselectposiM2;
+        }
+    }
+     //デスクトップ
+    if(document.body.querySelector('div[aria-label="ホームタイムライン"]')==null&&document.querySelector('div[data-testid="TopNavBar"]')==null){
+    }
+    //追加
+    if(document.querySelector('select[id="infobutton"]') ==null){
+       const sumselectmat = document.querySelector('select[id="infobutton"]');
+    if (location.pathname.includes("/i/lists/")){
+       infosumselect = document.createElement("div");
+       infosumselect.innerHTML ='<select id="infobutton" style="display:block;background-color:#102030; color:white;text-align:right; height:22px; width:100%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="showsum">詳細を表示</option><option value="hidesum">詳細を非表示</option></select>';
+       sumselectposiA.appendChild(infosumselect);
+       document.querySelector('select[id="infobutton"]').parentNode.style.display ="block";
+      }
+      else{
+          sumselectmat.parentNode.style.display ="none";
+      }
+     }
+     if(document.querySelector('select[id="infobutton"]')!=null){
+     const sumselectmat = document.querySelector('select[id="infobutton"]');
+        if(location.pathname.includes("/i/lists/")){
+          sumselectmat.parentNode.style.display = "block";
+       }
+       else{
+          sumselectmat.parentNode.style.display = "none";
+             }
+     sumselectmat.addEventListener('change',function(){
+       if(sumselectmat.value == "showsum"){
+            sumflag=1;
+            }
+           if(sumselectmat.value == "hidesum"){
+            sumflag=2;
+           }
+       });
+       }
+
+   }
+  //再帰的setTimeoutで動作しないのでここにInterval
+    setInterval(createsumselect,500)
+}
+
+//詳細の表示/非表示切り替え
+function sumctrl(){
+    function sumflagctrl(){
+        if(location.pathname.includes("/i/lists")){
+        let buttonmat = document.querySelector('select[id="infobutton"]');
+            let sumtarget = document.querySelector('main[role="main"]')
+            let summary = sumtarget.querySelector('div[class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu"]');
+            if(summary !=null && buttonmat!=null){
+            if (sumflag =="1"){
+              summary.parentNode.parentNode.style.display ="block";
+              buttonmat.options[0].selected = true;
+             }
+            if (sumflag =="2"){
+               summary.parentNode.parentNode.style.display ="none";
+             buttonmat.options[1].selected = true;
+            }
+          }
+        }
+        setTimeout(sumflagctrl,500)
+    }
+    sumflagctrl();
+}
+
+/*ほぼCro様(https://greasyfork.org/ja/users/10865-cro)作成の
+Twitter media-only filter toggle(https://greasyfork.org/ja/scripts/39130-twitter-media-only-filter-toggle)
+からのコード
+*/
      let target = document.body.querySelector('h2[data-testid="root"]');
      let has_photo = node => node.querySelector('[data-testid="tweetPhoto"]');
      let has_video = node => node.querySelector('[data-testid="videoPlayer"]');
@@ -133,6 +230,8 @@ function showchange(){
 start_process();
 };
 
+
+//下の自動更新のオン/オフ（スクロール位置による切り替え）
 document.addEventListener('scroll',function(){
  if(!location.pathname.includes("/explore") &&!location.pathname.includes("/messages") &&!location.pathname.includes("/compose/tweet") &&!location.pathname.includes("/status/") &&!location.pathname.includes("/notifications") &&!location.pathname.endsWith("/timeline") &&!location.pathname.endsWith("/lists")){
     if(window.scrollY>=150){
@@ -144,6 +243,7 @@ document.addEventListener('scroll',function(){
 }
 })
 
+//TL自動更新（ポスト自動"取得"ではない）
 function updateIT(){
  let HomeTLW;
  let HomeTL;
@@ -163,11 +263,10 @@ function updateIT(){
          }
      }
      if(HomeTLW == null && HomeTL == null){
-      ClickTL = null;
       setTimeout(updateIT,10000);
      }
-     if(ClickTL!= null){
-             if(relflag == 0){
+        if(ClickTL != null){
+            if(relflag == 0){
                relflag = 0;
              }
              if(relflag == 1){
@@ -177,12 +276,10 @@ function updateIT(){
              if(relflag == 2){
                 relflag = 2;
              }
-     }
-
+        }
      }
      setTimeout(updateIT,60000)
  }
-
 
 initFiltter();
 
