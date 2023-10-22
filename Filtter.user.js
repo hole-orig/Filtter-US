@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Filtter B
+// @name         Filtter
 // @namespace    https://twitter.com/hom_hole
 // @version      0.9n
 // @description  Filter for X/Twitter
