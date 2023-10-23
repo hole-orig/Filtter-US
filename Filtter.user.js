@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Filtter
+// @name         Filtter Bfb
 // @namespace    https://twitter.com/hom_hole
-// @version      0.9n
+// @version      0.9o
 // @description  Filter for X/Twitter
 // @author       hom_hole
 // @match        https://twitter.com/*
@@ -17,20 +17,18 @@ let sumflag;
 let srelflag;
 function initFiltter(){
 showflag =1;
-srelflag =2;
-sumflag =1;
 relflag = 2;
+sumflag =1;
+srelflag =2;
  setTimeout(updateIT,100);
  setTimeout(showchange,100);
  setTimeout(addmenu,500);
  setTimeout(sumctrl,500)
 }
 
-//フィルターメニュー
 function addmenu(){
 let navElD2;
 let navmenu;
-//追加
  function createmenu(){
  if(document.getElementById("filtnav") == null){
  //↓はモバイルかつ委任アカウントでない
@@ -45,7 +43,6 @@ let navmenu;
  navmenu.innerHTML= '<select id="filtnav" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:80%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="All">全て表示</option><option value="ExRP">リポスト非表示</option><option value="Media">メディアのみ</option><option value="ExRP_Media">リポスト非表示/メディアのみ</option></select><select id="relselect"style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:20%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="autorel">自動</option><option value="manurel">手動</option></select>';
  navElD2.prepend(navmenu);
  }
-//動作（フラグ変更）
  if(document.getElementById("filtnav") !=null){
  const filtternav = document.getElementById("filtnav");
  filtternav.addEventListener('change',setFilt);
@@ -64,7 +61,6 @@ let navmenu;
      showflag =4;
     }
  }
-//表示補正
  if(showflag =="1"){
    filtternav.options[0].selected = true;
    }
@@ -82,23 +78,24 @@ let navmenu;
    function setRel(){
      let flagra = relnav.value;
     if(flagra =="autorel"){
-    srelflag =1;
+    srelflag=1;
+    updatectrl();
     sumflag=2;
     }
     if(flagra =="manurel"){
-     srelflag =2;
+     srelflag=2;
+     updatectrl();
      sumflag=1;
     }
  }
- if(srelflag =="1"){
+ if(relflag =="1"){
    relnav.options[0].selected = true;
    }
- if(srelflag =="2"){
+ if(relflag =="2"){
    relnav.options[1].selected = true;
   }
- }
 }
-//表示調整
+}
     if(document.getElementById("filtnav") != null){
         const filtternav = document.getElementById("filtnav");
         if(location.pathname.includes("/explore") ||location.pathname.includes("/messages") || location.pathname.includes("/compose/tweet") || location.pathname.includes("/status/") || location.pathname.endsWith("/notifications")|| location.pathname.endsWith("/timeline") ||location.pathname.endsWith("/lists")){
@@ -113,10 +110,9 @@ let navmenu;
 createmenu();
 };
 
-//リストの詳細の表示/非表示切り替え(手動更新では表示/自動更新で非表示)
 function sumctrl(){
     function sumflagctrl(){
-        if(location.pathname.includes("/i/lists")){
+        if(location.pathname.includes("/i/lists/")&&!location.pathname.endsWith("/add_member")){
             let sumtarget = document.querySelector('main[role="main"]')
             let summary = sumtarget.querySelector('div[class="r-1p0dtai r-1pi2tsx r-1d2f490 r-u8s1d r-ipm5af r-13qz1uu"]');
             if(summary !=null){
@@ -132,10 +128,7 @@ function sumctrl(){
     }
     sumflagctrl();
 }
-/*メディア関連のフィルタリングはほぼCro様(https://greasyfork.org/ja/users/10865-cro)作成の
-Twitter media-only filter toggle(https://greasyfork.org/ja/scripts/39130-twitter-media-only-filter-toggle)
-からのコード
-*/
+
      let target = document.body.querySelector('h2[data-testid="root"]');
      let has_photo = node => node.querySelector('[data-testid="tweetPhoto"]');
      let has_video = node => node.querySelector('[data-testid="videoPlayer"]');
@@ -179,37 +172,36 @@ function showchange(){
    clearTimeout(timemonr)
    start_process();
   }, 200);
-
  };
 start_process();
 };
 
-//下の自動更新のオン/オフ
-document.addEventListener('scroll',function(){
- if(!location.pathname.includes("/explore") &&!location.pathname.includes("/messages") &&!location.pathname.includes("/compose/tweet") &&!location.pathname.includes("/status/") &&!location.pathname.includes("/notifications") &&!location.pathname.endsWith("/timeline") &&!location.pathname.endsWith("/lists")){
-//自動更新選択時は スクロール位置による切り替え
-   if(srelflag=="1"){
+document.addEventListener('scroll',updatectrl)
+
+function updatectrl(){
+ const relnav = document.getElementById("relselect");
+     if(srelflag=="1"){
      if(window.scrollY>=150){
          relflag = 2;
+         relnav.options[1].selected = true;
      };
     if(window.scrollY<100){
          relflag = 1;
+        relnav.options[0].selected = true;
      }
   }
-    if(srelflag=="2")
+    else
    {
         relflag = 2;
     }
 }
-})
 
-//TL自動更新（ポスト自動"取得"ではない）
 function updateIT(){
  let HomeTLW;
  let HomeTL;
  let ClickTL;
     if (!location.pathname.includes("/explore") &&!location.pathname.includes("/messages") &&!location.pathname.includes("/compose/tweet") && !location.pathname.includes("/status/") && !location.pathname.endsWith("/notifications")&& !location.pathname.endsWith("/timeline") && !location.pathname.endsWith("/lists")) {
-      HomeTLW = document.querySelector('div[aria-label="ホームタイムライン"]');
+      HomeTLW = document.querySelector('div[data-testid="primaryColumn"]');
       HomeTL = document.querySelector('div[data-testid="TopNavBar"]');
      if(HomeTLW != null && HomeTL == null){
          ClickTL= HomeTLW.querySelector('div[class="css-1dbjc4n r-16y2uox r-1wbh5a2 r-1pi2tsx r-1777fci"]');
