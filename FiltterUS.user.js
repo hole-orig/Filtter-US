@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name         Filtter USLiteF
 // @namespace    https://twitter.com/hom_hole
-// @version      1.0.1
+// @version      1.0.2
 // @description  Filter for X/Twitter
 // @author       hom_hole
 // @match        https://twitter.com/*
@@ -334,5 +334,7 @@ function updateIT(){
    }
   setTimeout(execupdateIT,10000)
 }
+
+initFiltter();
 
 })();
