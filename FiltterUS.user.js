@@ -1,9 +1,9 @@
 ﻿// ==UserScript==
 // @name         Filtter USLiteF
-// @namespace    https://twitter.com/hom_hole
+// @namespace    https://twitter.com/hole_orig
 // @version      1.0.2
 // @description  Filter for X/Twitter
-// @author       hom_hole
+// @author       hole_orig
 // @match        https://twitter.com/*
 // @match        https://x.com/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
@@ -30,9 +30,9 @@
  }
 
   let oldloc;
- //メニュー作成実行ここから
+ //メニュー作成ここから
   function execcreate(){
-   let navElD = null;
+   let navElD;
    startcreate();
    function checknavElD(){
     //↓は非モバイル
@@ -44,36 +44,39 @@
    if(document.querySelector('div[data-testid="TopNavBar"]') !=null || document.querySelector('div[data-testid="primaryColumn"]') ==null){
       navElD = document.querySelector('div[data-testid="BottomBar"]');
      }
+    if(document.querySelector('div[data-testid="TopNavBar"]') ==null && document.querySelector('div[data-testid="primaryColumn"]') ==null){
+      navElD= null;
+     }
    }
 function startcreate(){
+   navElD = null
    if(navElD==null){
-      //execcreate();
        checknavElD();
    }
    if(navElD !=null){
-//       createnavmenuelm()}
-//   function createnavmenuelm(){
    let navmenu;
    navmenu = document.createElement("div");
    navmenu.id = "navmenudiv"
     if(location.pathname.endsWith("/home")){
-   　　navmenu.innerHTML= '<div><select id="filtnav" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:70%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="All">全て表示</option><option value="ExRP">リポスト非表示</option><option value="Media">メディアのみ</option><option value="ExRP_Media">リポスト非表示/メディアのみ</option></select><select id="relselect" name="homeselect" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:30%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="autorel">自動更新</option><option value="manurel">手動更新</option></select></div>';
+   　　navmenu.innerHTML= '<div><select id="filtnav" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:70%; padding:0; margin:0; font-size:18px; border:1px solid;" title="フィルター"><option value="All">全て表示</option><option value="ExRP">リポスト非表示</option><option value="Media">メディアのみ</option><option value="ExRP_Media">リポスト非表示/メディアのみ</option></select><select id="relselect" name="homeselect" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:30%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="autorel" title="更新">自動更新</option><option value="manurel">手動更新</option></select></div>';
       }
      if(location.pathname.includes("/i/lists")){
-           navmenu.innerHTML= '<div><select id="filtnav" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:70%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="All">全て表示</option><option value="ExRP">リポスト非表示</option><option value="Media">メディアのみ</option><option value="ExRP_Media">リポスト非表示/メディアのみ</option></select><select id="sumselect" name="listselect" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:30%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="showsum">詳細表示</option><option value="hidesum">詳細非表示</option></select></div>';
+           navmenu.innerHTML= '<div><select id="filtnav" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:70%; padding:0; margin:0; font-size:18px; border:1px solid;" title="フィルター"><option value="All">全て表示</option><option value="ExRP">リポスト非表示</option><option value="Media">メディアのみ</option><option value="ExRP_Media">リポスト非表示/メディアのみ</option></select><select id="sumselect" name="listselect" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:30%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="showsum" title="詳細">詳細表示</option><option value="hidesum">詳細非表示</option></select></div>';
       }
      if(!location.pathname.includes("/i/lists/") && !location.pathname.endsWith("/home")){
-           navmenu.innerHTML= '<div><select id="filtnav" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:70%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="All">全て表示</option><option value="ExRP">リポスト非表示</option><option value="Media">メディアのみ</option><option value="ExRP_Media">リポスト非表示/メディアのみ</option></select><select id="noselect" name="notwork" style="display:inline-block;background-color:#102030; color:white;text-align:center; height:22px; width:30%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="showsum">-</option></select></div>';
+           navmenu.innerHTML= '<div><select id="filtnav" style="display:inline-block;background-color:#102030; color:white;text-align:right; height:22px; width:70%; padding:0; margin:0; font-size:18px; border:1px solid;" title="フィルター"><option value="All">全て表示</option><option value="ExRP">リポスト非表示</option><option value="Media">メディアのみ</option><option value="ExRP_Media">リポスト非表示/メディアのみ</option></select><select id="noselect" name="notwork" style="display:inline-block;background-color:#102030; color:white;text-align:center; height:22px; width:30%; padding:0; margin:0; font-size:18px; border:1px solid;"><option value="showsum" title="無し">-</option></select></div>';
       }
        if(location.pathname.endsWith("/explore") || location.pathname.endsWith("/settings") || location.pathname.endsWith("/messages") || location.pathname.includes("/compose/post") || location.pathname.includes("/status/") || location.pathname.endsWith("/notifications")|| location.pathname.endsWith("/timeline") ||location.pathname.endsWith("/lists")||location.pathname.endsWith("/verified-choose")||location.pathname.endsWith("/verified-choose")||location.pathname.endsWith("/communities")){
        navmenu.innerHTML="";
        }
      navElD.prepend(navmenu);
+     menuact();
      //メニューが作成されたときのURLを格納
      oldloc= location.href;
    }
 　 //メニュー作成ここまで
  　//フィルタメニュー動作ここから
+ function menuact(){
    if(document.getElementById("filtnav") !=null){
     const filtternav = document.getElementById("filtnav");
     filtternav.addEventListener('change',setFilt);
@@ -152,28 +155,27 @@ function startcreate(){
    //詳細表示メニュー動作ここまで
    //displaymenu();
  }
+ }
 }
+ //メニュー作成ここまで
   //メニュー作成実行
    function createmenu(){
      const navElm = document.getElementById("navmenudiv");
        if(navElm ==null){
         execcreate();
         //再帰処理用、場合分けして都度やらないと失敗したまま繰り返されたりする？
-        //setTimeout(createmenu,2000)
         }
        if(navElm != null){
          if(location.href!=oldloc)
          {
            navElm.remove();
              //nullにして前に戻し
-          // setTimeout(createmenu,2000)
          }
-	    //↓委任アカウント変更→戻り時に動作しなくなってしまう 20231225イベント駆動にしたら改善？
          if(location.href==oldloc){
+           //表示、これを実行するのは作成が終わった後であることが保証されないといけないためここ
              navElm.style.display="block"
          }
         }
-	//↓があると↑をちゃんと動作させようとするとループする?
        setTimeout(createmenu,2000)
    }
 
@@ -214,26 +216,15 @@ function sumctrl(){
  let has_card_media = node => node.querySelector('[data-testid*="media"]');
  let has_media = node => [has_photo, has_video, has_card_media].some(f => f(node));
  let has_ret1 = node => node.querySelector('div[class="css-175oi2r r-1iusvr4 r-16y2uox"]');
+
  let has_ret2 = node => node.querySelector('div[class="css-175oi2r r-18kxxzh r-1kb76zh r-onrtq4 r-obd0qt r-1777fci"]');
  let has_ret3 = node => node.querySelector('div[class="css-175oi2r r-18kxxzh r-1kb76zh r-a2axhi r-obd0qt r-1777fci"]');
  let has_ret = node => [has_ret1, has_ret2,has_ret3].some(f => f(node));
  let get_target_parent = node => node.parentNode.parentNode;
-// let get_target_parent = node => node.parentNode;
  let set_article_state1 = node => void(get_target_parent(node).style.display = "block");
  let set_article_state2 = node => void(get_target_parent(node).style.display = has_media(node) ? "block" : "none" );
  let set_article_state3 = node => void(get_target_parent(node).style.display = has_ret(node) ? "none" : "block" );
  let set_article_state4 = node => void(get_target_parent(node).style.display = has_media(node) && !has_ret(node) ? "block" : "none" );
-
-    //↓不用意に上の要素まで削除しないことを期待したが、どうも一部読み込んでるようでメモリ食ってるっぽい
-// let set_article_state1 = node => void(node.style.display = "block");
-// let set_article_state2 = node => void(node.style.display = has_media(node) ? "block" : "none" );
-// let set_article_state3 = node => void(node.style.display = has_ret(node) ? "none" : "block" );
-// let set_article_state4 = node => void(node.style.display = has_media(node) && !has_ret(node) ? "block" : "none" );
-
-// let set_article_state1 = node => void(get_target_parent(node).style.visibility = "visible");
-// let set_article_state2 = node => void(get_target_parent(node).style.visibility = has_media(node) ? "visible" : "hidden" );
-// let set_article_state3 = node => void(get_target_parent(node).style.visibility = has_ret(node) ? "hidden" : "visible" );
-// let set_article_state4 = node => void(get_target_parent(node).style.visibility = has_media(node) && !has_ret(node) ? "visible" : "hidden" );
 
  let for_each_article = func => void document.body.querySelectorAll("article").forEach(func);
  let set_all_article_states;
@@ -258,9 +249,7 @@ function sumctrl(){
     let timemonr = setTimeout(function(){
      let flagnow = showflag;
      if( !location.pathname.includes("/explore") &&!location.pathname.includes("/messages") &&!location.pathname.includes("/compose/tweet") && !location.pathname.includes("/status/") && !location.pathname.endsWith("/notifications")&& !location.pathname.endsWith("/timeline") && !location.pathname.endsWith("/lists")||location.pathname.endsWith("/communities")){
-     //  navigator.locks.request('show_lock', async lock => {
         set_all_article_states();
-     //  })
        }
      clearTimeout(timemonr)
      start_process();
@@ -309,19 +298,23 @@ function updateIT(){
          }
        }
     }
-    function execupdateIT(){
-     if (!location.pathname.endsWith("/home")) {
+    if (!location.pathname.endsWith("/home")) {
         ClickTL= null;
-     }
+    }
+    function execupdateIT(){
+     ClickTL = null;
+     if (!location.pathname.endsWith("/home")) {
+    ;
+    }
      if (location.pathname.endsWith("/home")){
        if(ClickTL == null){
-         setTimeout(checkTL,2500);
+         checkTL();
        }
        if(ClickTL != null){
            if(relflag == 0){
               relflag = 0;
             }
-            if(relflag == 1 && actflag==1){
+             if(relflag == 1){
               relflag = 1;
               ClickTL.click();
             }
@@ -336,5 +329,50 @@ function updateIT(){
 }
 
 initFiltter();
+
+
+//バックグラウンド時はタイマーが動作しないように
+//window.addEventListener('pageshow',function(){
+//   actflag=1;
+//    }
+//);
+
+//window.addEventListener('pagehide',function(){
+//    actflag=0;
+//    }
+//);
+    //下は使えそう、でもバックグラウンドでのどうこうだからフォアにしてたらかわらんし
+    //ただバックグラウンドでメモリ食いすぎてフォアが解放されるのは防げるかも
+//document.addEventListener("visibilitychange", () => {
+//  if (document.visibilityState === "visible") {
+//      actflag=1;
+//    console.log("コンテンツが表示された");
+//  }
+//      actflag=0;
+//  if (document.visibilityState === "hidden") {
+//    console.log("コンテンツがバックグラウンドになった");
+//  }
+//});
+
+
+
+//余談
+//スワイプは矢印が出る時はそれにいたがっちゃいかんかも（例の「スワイプでRPとか表示」の予兆あり）
+
+    //window.addEventListener('pageshow',function(){
+ //   if(actflag!=1){initFiltter()}
+//    }
+//);
+
+//window.addEventListener('pagehide',function(){
+//    actflag=0;
+//    }
+//);
+
+//unloadが完全非推奨になるまでの暫定対策
+//window.addEventListener('unload',function(){
+//    actflag=0;
+//    }
+//);
 
 })();
