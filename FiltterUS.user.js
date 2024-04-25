@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name         Filtter USLiteF
 // @namespace    https://twitter.com/hole_orig
-// @version      1.0.2
+// @version      1.0.3
 // @description  Filter for X/Twitter
 // @author       hole_orig
 // @match        https://twitter.com/*
