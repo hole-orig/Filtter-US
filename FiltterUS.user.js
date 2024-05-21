@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Filtter USLiteF
 // @namespace    https://x.com/hole_orig
-// @version      1.0.6
+// @version      1.0.7
 // @description  Filter for X/Twitter
 // @author       hom_hole
 // @match        https://twitter.com/*
@@ -30,7 +30,6 @@
   }
 
  let oldloc;
- let oldwidth;
   //メニュー作成実行ここから
  //  function execcreate(){
   //   let navElD =null;
@@ -79,7 +78,6 @@
       menuact();
       //メニューが作成されたときのURLを格納
       oldloc= location.href;
-      oldwidth = window.innerWidth;
     }
  }
   //メニュー作成ここまで
@@ -177,14 +175,10 @@
             startcreate();
          }
         if(navElm != null){
-          if(location.href!=oldloc)
-          {
+          if(location.href!=oldloc){
             navElm.remove();
           }
           if(location.href==oldloc){
-            if(window.innerWidth != oldwidth){
-              navElm.remove();
-            }
             if(navElm.style.display=!"block"){
               navElm.style.display="block"
             }
