@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Filtter USLiteF
 // @namespace    https://x.com/hole_orig
-// @version      1.0.7
+// @version      1.0.8
 // @description  Filter for X/Twitter
 // @author       hom_hole
 // @match        https://twitter.com/*
@@ -16,9 +16,9 @@
   let relflag;
   let sumflag;
   let srelflag;
+  //let actflag;
 
   function initFiltter(){
- //   actflag=1;
     showflag =1;
     relflag = 2;
     sumflag =1;
@@ -30,6 +30,7 @@
   }
 
  let oldloc;
+ let oldsize;
   //メニュー作成実行ここから
  //  function execcreate(){
   //   let navElD =null;
@@ -78,6 +79,7 @@
       menuact();
       //メニューが作成されたときのURLを格納
       oldloc= location.href;
+      oldsize = window.innerWidth;
     }
  }
   //メニュー作成ここまで
@@ -166,27 +168,40 @@
  //}
  //メニュー作成実行ここまで
  //メニュー表示ここから
-//-
+ //-
  //メニュー表示ここまで
  //メニュー作成実行
     function createmenu(){
       const navElm = document.getElementById("navmenudiv");
         if(navElm ==null){
+ //         execcreate();
             startcreate();
+        //再帰処理用、場合分けして都度やらないと失敗したまま繰り返されたりする？
+        //setTimeout(createmenu,2000)
          }
         if(navElm != null){
-          if(location.href!=oldloc){
+          if(location.href!=oldloc)
+          {
             navElm.remove();
+ //         nullにして前に戻し
+ //         setTimeout(createmenu,2000)
           }
+        //↓委任アカウント変更→戻り時に動作しなくなってしまう 20231225イベント駆動にしたら改善？
           if(location.href==oldloc){
-            if(navElm.style.display=!"block"){
+          //表示、これを実行するのは作成が終わった後であることが保証されないといけないためここ
+              if(window.innerWidth != oldsize){
+                navElm.remove();
+              }
+              if(navElm.style.display=!"block"){
               navElm.style.display="block"
-            }
+              }
+          }
          }
-    //↓ないとnullかnonnullかの判定がかからない         
+   //↓ないとnullかnonnullかの判定がかからない
         setTimeout(createmenu,2000);
-         }
-      }
+
+ }
+
 
  //詳細メニュー動作
  function sumctrl(){
@@ -338,6 +353,5 @@
  initFiltter();
 
  })();
-
 
 
