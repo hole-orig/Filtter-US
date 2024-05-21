@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Filtter USLiteF
 // @namespace    https://x.com/hole_orig
-// @version      1.0.5
+// @version      1.0.6
 // @description  Filter for X/Twitter
 // @author       hom_hole
 // @match        https://twitter.com/*
@@ -175,7 +175,6 @@
       const navElm = document.getElementById("navmenudiv");
         if(navElm ==null){
             startcreate();
-
          }
         if(navElm != null){
           if(location.href!=oldloc)
@@ -183,7 +182,7 @@
             navElm.remove();
           }
           if(location.href==oldloc){
-            if(window.innerWidth != oldsize){
+            if(window.innerWidth != oldwidth){
               navElm.remove();
             }
             if(navElm.style.display=!"block"){
